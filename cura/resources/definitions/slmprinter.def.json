@@ -45,7 +45,7 @@
                 "machine_start_gcode":{
                     "label":"Start G-code",
                     "description":"G-code commands to be executed at the very start - separated by \\n.",
-                    "default_value":"G90\nG359\nVELOCITY ON\n$PowderAmount=2 \n$RakeSpeed=200 \n$LayerThickness=0.0300 \n$O2Thr=0.8000 \n$O2Thr2=0.4500 \n$ShieldingGasOn=TRUE\nWAIT($ShieldingGasOn==FALSE)-1\n$ShieldingGasMon=TRUE \n $ControlGasFlow=100.00 \nDWELL 10 \n WAIT($GasFlow>=0.9*$ControlGasFlow)-1\nWAIT ($Start==TRUE)-1\nF350.00\n$SetL1Power=4630\n DWELL 0.2",
+                    "default_value":"G90\nG359\nVELOCITY ON\n$PowderAmount=2 \n$RakeSpeed=200 \n$LayerThickness=0.0300 \n$O2Thr=0.8000 \n$O2Thr2=0.4500 \n$ShieldingGasOn=TRUE\nWAIT($ShieldingGasOn==FALSE)-1\n$ShieldingGasMon=TRUE \n$ControlGasFlow=100.00\nDWELL 10\nWAIT($GasFlow>=0.9*$ControlGasFlow)-1\nWAIT ($Start==TRUE)-1",
                     "type":"str",
                     "settable_per_mesh":false,
                     "settable_per_extruder":false,
@@ -54,7 +54,7 @@
                 "machine_end_gcode":{
                     "label":"End G-code",
                     "description":"G-code commands to be executed at the very end - separated by \\n.",
-                    "default_value":"$ShieldingGasMon=FALSE \n $ShieldingGasOff=TRUE\nWAIT($ShieldingGasOff==FALSE)-1\n$ControlGasFlow=0\n$SetGasFlow=0\nWAIT($SetGasFlow==0)-1\n$L1FinFin=1 \n END PROGRAM",
+                    "default_value":"$ShieldingGasMon=FALSE \n$ShieldingGasOff=TRUE\nWAIT($ShieldingGasOff==FALSE)-1\n$ControlGasFlow=0\n$SetGasFlow=0\nWAIT($SetGasFlow==0)-1\n$L1FinFin=1\nEND PROGRAM",
                     "type":"str",
                     "settable_per_mesh":false,
                     "settable_per_extruder":false,
@@ -1208,11 +1208,25 @@
                 },
 				"laser_power":{
                     "label":"Laser Power",
-                    "description":"The value of the laser power which is goven to the machine.",
+                    "description":"The value of the laser power which is given to the machine.",
                     "type":"int",
                     "minimum_value":"0",
                     "default_value":1500,
                     "settable_per_mesh":true                    
+                },
+				"layer_start_code":{
+                    "label":"Layer Start Code",
+                    "description":"GCode at the start of each layer. New line with '|'",
+                    "type":"str",
+                    "default_value":"$L1Fin=0|GALVO LASEROVERRIDE X OFF",
+                    "settable_per_mesh":false
+                },
+				"layer_end_code":{
+                    "label":"Layer End Code",
+                    "description":"GCode at the end of each layer. New line with '|'",
+                    "type":"str",
+                    "default_value":"$L1Fin=1|WAIT($L1Fin==1)-1|$PowderDeposition=1|WAIT($PowderDeposition==0)-1|DWELL 0.500",
+                    "settable_per_mesh":false
                 }
             }
         },
