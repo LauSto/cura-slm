@@ -729,7 +729,7 @@
                     "type":"bool",
                     "default_value":true,
                     "limit_to_extruder":"infill_extruder_nr",
-                    "settable_per_mesh":true
+                    "settable_per_mesh":false
                 },
                 "skywrite_distance":{
                     "label":"Skywrite Distance",
@@ -750,6 +750,20 @@
                     "enabled":"skywrite",
                     "limit_to_extruder":"infill_extruder_nr",
                     "settable_per_mesh":true
+                },
+				"layer_start_code":{
+                    "label":"Layer Start Code",
+                    "description":"GCode at the start of each layer. New line with '|'",
+                    "type":"str",
+                    "default_value":"$L1Fin=0|GALVO LASEROVERRIDE X OFF",
+                    "settable_per_mesh":false
+                },
+				"layer_end_code":{
+                    "label":"Layer End Code",
+                    "description":"GCode at the end of each layer. New line with '|'",
+                    "type":"str",
+                    "default_value":"$L1Fin=1|WAIT($L1Fin==1)-1|$PowderDeposition=1|WAIT($PowderDeposition==0)-1|DWELL 0.500",
+                    "settable_per_mesh":false
                 }
             }
         },
@@ -1213,20 +1227,6 @@
                     "minimum_value":"0",
                     "default_value":1500,
                     "settable_per_mesh":true                    
-                },
-				"layer_start_code":{
-                    "label":"Layer Start Code",
-                    "description":"GCode at the start of each layer. New line with '|'",
-                    "type":"str",
-                    "default_value":"$L1Fin=0|GALVO LASEROVERRIDE X OFF",
-                    "settable_per_mesh":false
-                },
-				"layer_end_code":{
-                    "label":"Layer End Code",
-                    "description":"GCode at the end of each layer. New line with '|'",
-                    "type":"str",
-                    "default_value":"$L1Fin=1|WAIT($L1Fin==1)-1|$PowderDeposition=1|WAIT($PowderDeposition==0)-1|DWELL 0.500",
-                    "settable_per_mesh":false
                 }
             }
         },
@@ -2316,8 +2316,8 @@
                     "description":"Layer thickness of the middle raft layer.",
                     "unit":"mm",
                     "type":"float",
-                    "default_value":0.15,
-                    "value":"resolveOrValue('layer_height') * 2",
+                    "default_value":0.03,
+                    "value":"resolveOrValue('layer_height')",
                     "minimum_value":"0.001",
                     "enabled":"resolveOrValue('adhesion_type') == 'raft'",
                     "settable_per_mesh":false,
